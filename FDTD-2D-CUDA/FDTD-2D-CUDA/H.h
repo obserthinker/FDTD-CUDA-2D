@@ -15,7 +15,7 @@ class src;
 class H
 {
 public:
-	float *Hx, *Hy, *dev_Hx, *dev_Hy, coe_H;
+	float **Hx, **Hy, *dev_Hx, *dev_Hy, coe_H;
 	int size_Hx, size_Hy, size_Hx_x, size_Hx_y, size_Hy_x, size_Hy_y;
 	const float PI = 3.14159265939f;
 	const float mu = (4.0*PI)*1e-7f;

@@ -12,19 +12,10 @@ from mpl_toolkits.mplot3d import Axes3D
 import time
 
 '''
-def animate(i):
-    Z = groups[i + 100]
-    #ax.plot_wireframe(X, Y, Z, rstride = 2, cstride = 2)
-    ax.scatter3D(X, Y, Z)
-    ax.cla()
-    #return ax
-'''
-
-'''
 import data
 '''
 dz = 0.015
-space = 30
+space = 10
 ez_space = space + 1
 time = 400
 data = np.loadtxt('Ez.txt')
@@ -56,6 +47,10 @@ ax.set_zlim(-1,1)
 plot
 '''
 wframe = None
+# wframe = ax.plot_wireframe(X, Y, groups[390], rstride = 1, cstride = 1)
+# print(groups[390])
+# plt.show()
+
 for i in range(0,time):
 	oldcol = wframe
 
@@ -66,3 +61,5 @@ for i in range(0,time):
 		ax.collections.remove(oldcol)
 
 	plt.pause(.001)
+
+plt.show()

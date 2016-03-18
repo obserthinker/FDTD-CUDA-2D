@@ -17,7 +17,7 @@ class H;
 class E
 {
 public:
-	float *Ez, *dev_Ez, coe_Ez, coe_MUR;
+	float **Ez, *dev_Ez, coe_Ez, coe_MUR;
 	float *E_bd_u, *E_bd_d, *E_bd_l, *E_bd_r;
 	float *E_nbd_u, *E_nbd_d, *E_nbd_l, *E_nbd_r;
 	int size_Ez, size_Ez_x, size_Ez_y;

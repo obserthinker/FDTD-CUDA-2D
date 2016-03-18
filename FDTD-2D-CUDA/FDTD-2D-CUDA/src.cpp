@@ -36,7 +36,7 @@ void src::src_checkout()
 void src::src_cmp_kernel(int current_timestep, E E)
 {
 	float T, T0, vt, val_src, time;
-	int src_position;
+	int src_pos_x, src_pos_y;
 
 	time = current_timestep * dt;
 
@@ -46,12 +46,13 @@ void src::src_cmp_kernel(int current_timestep, E E)
 
 	val_src = expf(-powf(vt, 2.0f));
 
-	src_position = (E.size_Ez_y / 2) * E.size_Ez_x + (E.size_Ez_x / 2);
+	src_pos_x = E.size_Ez_y / 2;
+	src_pos_y = E.size_Ez_x / 2;
 
-	E.Ez[src_position] = val_src;
+	E.Ez[src_pos_x][src_pos_y] = val_src;
 	fstream myfile;
 	myfile.open("src.txt", ios::app);
-	myfile << val_src << "\t";
+	myfile << E.Ez[src_pos_x][src_pos_y] << "\t";
 	myfile.close();
 	//cout << "source value: " << E.Ez[src_position] << endl;
 }

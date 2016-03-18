@@ -8,7 +8,7 @@ using namespace std;
 
 void main()
 {
-	src source(30,30,400);
+	src source(10,10,400);
 	H Hxy(source);
 	E Ez(source);
 

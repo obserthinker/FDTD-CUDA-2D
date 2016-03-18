@@ -17,18 +17,23 @@ void E::coe_Ez_set(src source)
 
 void E::Ez_init(src source)
 {
+	int i, j;
 	//initialize Ez
 	size_Ez_x = source.size_space_x + 1;
 	size_Ez_y = source.size_space_y + 1;
 	size_Ez = size_Ez_x * size_Ez_y;
 
-	Ez = (float*)malloc(size_Ez * sizeof(float));
-	cudaMalloc(&dev_Ez, size_Ez * sizeof(float));
-
-	for (int i = 0; i < size_Ez; i++)
-	{
-		Ez[i] = 0.f;
+	Ez = (float**)malloc(size_Ez_y * sizeof(float*));
+	for (i = 0; i < size_Ez_y; i++){
+		Ez[i] = (float*)malloc(size_Ez_x * sizeof(float));
 	}
+
+	for ( i = 0; i < size_Ez_y; i++){
+		for (j = 0; j < size_Ez_x; j++){
+			Ez[i][j] = 0.f;
+		}
+	}
+	cudaMalloc(&dev_Ez, size_Ez * sizeof(float));
 
 	//initialize file
 	fstream myfile;
@@ -79,7 +84,7 @@ void E::Ez_checkout()
 	for (i = 0; i < size_Ez_y; i++)
 	{
 		for (j = 0; j < size_Ez_x; j++){
-			cout << Ez[i * size_Ez_x + j] << "\t";
+			cout << Ez[i][j] << "\t";
 		}
 		cout << endl;
 	}
@@ -90,14 +95,15 @@ void E::Ez_cmp_kernel(H Hxy, src source)
 {
 	int i, j;
 	float dif_Hy, dif_Hx;
-	for (i = 0; i < size_Ez_y; i++){
-		for (j = 0; j < size_Ez_x; j++){
+	for (i = 1; i < size_Ez_y - 1; i++){
+		for (j = 1; j < size_Ez_x - 1; j++){
 			//Hy(i,j)	-	Hy(i-1,j)	
-			dif_Hy = Hxy.Hy[i*Hxy.size_Hy_x + j] - Hxy.Hy[(i - 1)*Hxy.size_Hy_x + j];
+			//dif_Hy = Hxy.Hy[i*Hxy.size_Hy_x + j] - Hxy.Hy[(i - 1)*Hxy.size_Hy_x + j];
+			dif_Hy = Hxy.Hy[i][j] - Hxy.Hy[i - 1][j];
 			//Hx(i,j-1)	-	Hx(i,j)
-			dif_Hx = Hxy.Hx[i*Hxy.size_Hx_x + j - 1] - Hxy.Hx[i*Hxy.size_Hx_x + j];
-
-			Ez[i*size_Ez_x + j] += coe_Ez * (dif_Hx + dif_Hy);
+//			dif_Hx = Hxy.Hx[i*Hxy.size_Hx_x + j - 1] - Hxy.Hx[i*Hxy.size_Hx_x + j];
+			dif_Hx = Hxy.Hx[i][j - 1] - Hxy.Hx[i][j];
+			Ez[i][j] += coe_Ez * (dif_Hx + dif_Hy);
 		}
 	}
 }
@@ -109,12 +115,12 @@ void E::Ez_boundary_PEC()
 	for (i = 0; i < size_Ez_y; i++){
 		if (i == 0 || i == (size_Ez_y - 1)){
 			for (j = 0; j < size_Ez_x; j++){
-				Ez[i * size_Ez_x + j] = 0.f;
+				Ez[i][j] = 0.f;
 			}
 		}
 		else{
-			Ez[i * size_Ez_x + 0] = 0.f;
-			Ez[i * size_Ez_x + (size_Ez_x - 1)] = 0.f;
+			Ez[i][0] = 0.f;
+			Ez[i][size_Ez_x - 1] = 0.f;
 		}
 	}
 }
@@ -134,7 +140,7 @@ void E::Ez_save2file()
 
 	for (i = 0; i < size_Ez_y; i++){
 		for (j = 0; j < size_Ez_x; j++){
-			myfile << Ez[i * size_Ez_x + j] << "\t";
+			myfile << Ez[i][j] << "\t";
 		}
 		myfile << endl;
 	}
@@ -145,25 +151,23 @@ void E::Ez_save2file()
 void E::Ez_MUR_u()
 {
 	int i;
-	for ( i = 0; i < size_Ez_x; i++)
-	{
-		Ez[size_Ez_x * (size_Ez_y - 1) + i] = E_nbd_u[i]
-			+ coe_MUR * (Ez[size_Ez_x * (size_Ez_y - 2) + i]
+	for ( i = 0; i < size_Ez_x; i++){
+		Ez[size_Ez_y - 1][i] = E_nbd_u[i]
+			+ coe_MUR * (Ez[size_Ez_y - 2][i]
 			- E_bd_u[i]);
-		E_nbd_u[i] = Ez[size_Ez_x * (size_Ez_y - 2) + i];
-		E_bd_u[i] = Ez[size_Ez_x * (size_Ez_y - 1) + i];
+		E_nbd_u[i] = Ez[size_Ez_y - 2][i];
+		E_bd_u[i] = Ez[size_Ez_y - 1][i];
 	}
 }
 
 void E::Ez_MUR_d()
 {
 	int i;
-	for ( i = 0; i < size_Ez_x; i++)
-	{
-		Ez[i] = E_nbd_d[i] + coe_MUR * (Ez[size_Ez_x + i]
+	for ( i = 0; i < size_Ez_x; i++){
+		Ez[0][i] = E_nbd_d[i] + coe_MUR * (Ez[1][i]
 			- E_bd_d[i]);
-		E_nbd_d[i] = Ez[size_Ez_x + i];
-		E_bd_d[i] = Ez[i];
+		E_nbd_d[i] = Ez[1][i];
+		E_bd_d[i] = Ez[0][i];
 	}
 }
 
@@ -171,14 +175,14 @@ void E::Ez_MUR_lr()
 {
 	for (int i = 0; i < size_Ez_y; i++){
 		//left
-		Ez[i * size_Ez_x] = E_nbd_l[i] + coe_MUR *
-			(Ez[i * size_Ez_x + 1] - E_bd_l[i]);
-		E_nbd_l[i] = Ez[i * size_Ez_x + 1];
-		E_bd_l[i] = Ez[i * size_Ez_x];
+		Ez[i][0] = E_nbd_l[i] + coe_MUR *
+			(Ez[i][1] - E_bd_l[i]);
+		E_nbd_l[i] = Ez[i][1];
+		E_bd_l[i] = Ez[i][0];
 		//right
-		Ez[i * size_Ez_x + (size_Ez_x - 1)] = E_nbd_r[i] + coe_MUR *
-			(Ez[i * size_Ez_x + (size_Ez_x - 2)] - E_bd_r[i]);
-		E_nbd_r[i] = Ez[i * size_Ez_x + (size_Ez_x - 2)];
-		E_bd_r[i] = Ez[i * size_Ez_x + (size_Ez_x - 1)];
+		Ez[i][size_Ez_x - 1] = E_nbd_r[i] + coe_MUR *
+			(Ez[i][size_Ez_x - 2] - E_bd_r[i]);
+		E_nbd_r[i] = Ez[i][size_Ez_x - 2];
+		E_bd_r[i] = Ez[i][size_Ez_x - 1];
 	}
 }
