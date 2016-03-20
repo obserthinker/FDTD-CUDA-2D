@@ -9,27 +9,33 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="E.cpp">
+    <CudaCompile Include="E.cu">
       <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="H.cpp">
+    </CudaCompile>
+    <CudaCompile Include="H.cu">
       <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="src.cpp">
+    </CudaCompile>
+    <CudaCompile Include="main.cu">
       <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
+    </CudaCompile>
+    <CudaCompile Include="src.cu">
       <Filter>source</Filter>
-    </ClCompile>
+    </CudaCompile>
+    <CudaCompile Include="cmp.cu">
+      <Filter>source</Filter>
+    </CudaCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src.h">
+    <ClInclude Include="E.cuh">
       <Filter>header</Filter>
     </ClInclude>
-    <ClInclude Include="H.h">
+    <ClInclude Include="H.cuh">
       <Filter>header</Filter>
     </ClInclude>
-    <ClInclude Include="E.h">
+    <ClInclude Include="src.cuh">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="cmp.cuh">
       <Filter>header</Filter>
     </ClInclude>
   </ItemGroup>
