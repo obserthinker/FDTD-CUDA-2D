@@ -1,19 +1,32 @@
-﻿Build started 3/20/2016 11:58:45 AM.
-     1>Project "C:\Users\obser\OneDrive\Documents\working\FDTD\FDTD-CUDA-2D\FDTD-2D-CUDA\FDTD-2D-CUDA\FDTD-2D-CUDA.vcxproj" on node 2 (CudaBuild target(s)).
+﻿Build started 3/20/2016 2:08:33 PM.
+     1>Project "C:\Users\obser\OneDrive\Documents\working\FDTD\FDTD-CUDA-2D\FDTD-2D-CUDA\FDTD-2D-CUDA\FDTD-2D-CUDA.vcxproj" on node 2 (Build target(s)).
      1>AddCudaCompileDeps:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\cl.exe /E /nologo /showIncludes /TP /D__CUDACC__ /DWIN32 /D_DEBUG /D_CONSOLE /D_MBCS /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" /I. /FIcuda_runtime.h /c C:\Users\obser\OneDrive\Documents\working\FDTD\FDTD-CUDA-2D\FDTD-2D-CUDA\FDTD-2D-CUDA\main.cu 
        CudaBuild:
          Compiling CUDA source file main.cu...
-         cmd.exe /C "C:\Users\obser\AppData\Local\Temp\tmp8a64152b29ff4c2e89d130c6311b0b73.cmd"
+         cmd.exe /C "C:\Users\obser\AppData\Local\Temp\tmp20828a0181cd47fe84f298186c15962c.cmd"
          "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2013 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin"  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -DWIN32 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd " -o Debug\main.cu.obj "C:\Users\obser\OneDrive\Documents\working\FDTD\FDTD-CUDA-2D\FDTD-2D-CUDA\FDTD-2D-CUDA\main.cu"
          
          C:\Users\obser\OneDrive\Documents\working\FDTD\FDTD-CUDA-2D\FDTD-2D-CUDA\FDTD-2D-CUDA>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2013 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin"  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -DWIN32 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd " -o Debug\main.cu.obj "C:\Users\obser\OneDrive\Documents\working\FDTD\FDTD-CUDA-2D\FDTD-2D-CUDA\FDTD-2D-CUDA\main.cu" 
-     1>C:/Users/obser/OneDrive/Documents/working/FDTD/FDTD-CUDA-2D/FDTD-2D-CUDA/FDTD-2D-CUDA/main.cu(20): warning : variable "err" was set but never used
-     1>C:/Users/obser/OneDrive/Documents/working/FDTD/FDTD-CUDA-2D/FDTD-2D-CUDA/FDTD-2D-CUDA/main.cu(20): warning : variable "err" was set but never used
          main.cu
      1>c:\users\obser\onedrive\documents\working\fdtd\fdtd-cuda-2d\fdtd-2d-cuda\fdtd-2d-cuda\H.cuh(21): warning C4244: 'initializing' : conversion from 'double' to 'const float', possible loss of data
-     1>Done Building Project "C:\Users\obser\OneDrive\Documents\working\FDTD\FDTD-CUDA-2D\FDTD-2D-CUDA\FDTD-2D-CUDA\FDTD-2D-CUDA.vcxproj" (CudaBuild target(s)).
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\obser\OneDrive\Documents\working\FDTD\FDTD-CUDA-2D\FDTD-2D-CUDA\Debug\FDTD-2D-CUDA.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\lib\Win32" cudart.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\obser\OneDrive\Documents\working\FDTD\FDTD-CUDA-2D\FDTD-2D-CUDA\Debug\FDTD-2D-CUDA.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\obser\OneDrive\Documents\working\FDTD\FDTD-CUDA-2D\FDTD-2D-CUDA\Debug\FDTD-2D-CUDA.lib" /MACHINE:X86 Debug\cmp.cu.obj
+         Debug\E.cu.obj
+         Debug\H.cu.obj
+         Debug\main.cu.obj
+         Debug\src.cu.obj
+         FDTD-2D-CUDA.vcxproj -> C:\Users\obser\OneDrive\Documents\working\FDTD\FDTD-CUDA-2D\FDTD-2D-CUDA\Debug\FDTD-2D-CUDA.exe
+       PostBuildEvent:
+         echo copy "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\cudart*.dll" "C:\Users\obser\OneDrive\Documents\working\FDTD\FDTD-CUDA-2D\FDTD-2D-CUDA\Debug\"
+         copy "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\cudart*.dll" "C:\Users\obser\OneDrive\Documents\working\FDTD\FDTD-CUDA-2D\FDTD-2D-CUDA\Debug\"
+         :VCEnd
+         copy "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\cudart*.dll" "C:\Users\obser\OneDrive\Documents\working\FDTD\FDTD-CUDA-2D\FDTD-2D-CUDA\Debug\"
+         C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\cudart32_75.dll
+         C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\cudart64_75.dll
+                 2 file(s) copied.
+     1>Done Building Project "C:\Users\obser\OneDrive\Documents\working\FDTD\FDTD-CUDA-2D\FDTD-2D-CUDA\FDTD-2D-CUDA\FDTD-2D-CUDA.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:04.74
+Time Elapsed 00:00:05.00

@@ -15,16 +15,13 @@ void H::Hx_init(src source)
 	size_Hx_y = source.size_space_y + 1;
 	size_Hx = size_Hx_x * size_Hx_y;
 
-    Hx = (float**)malloc(size_Hx_y * sizeof(float*));
-	for (i = 0; i < size_Hx_y; i++)
-	{
-		Hx[i] = (float *)malloc(size_Hx_x * sizeof(float));
-	}
-    //cudaMalloc(&dev_Hx, size_Hx * sizeof(float));
+    Hx = (float*)malloc(size_Hx * sizeof(float));
+	cudaMallocPitch(&dev_Hx, &pitch_Hx, size_Hx_x * sizeof(float), size_Hx_y);
+	ele_Hx = pitch_Hx / sizeof(float);
 
     for (i = 0; i < size_Hx_y; ++i){
 		for ( j = 0; j < size_Hx_x; j++){
-			Hx[i][j] = 0.f;
+			Hx[i*size_Hx_x +j] = 0.f;
 		}
     }
 
@@ -41,16 +38,13 @@ void H::Hy_init(src source)
 	size_Hy_y = source.size_space_y;
 	size_Hy = size_Hy_x * size_Hy_y;
 
-    Hy = (float**)malloc(size_Hy_y * sizeof(float*));
-	for (i = 0; i < size_Hy_y; i++){
-		Hy[i] = (float*)malloc(size_Hy_x * sizeof(float));
-	}
-
-	//cudaMalloc(&dev_Hy, size_Hy * sizeof(float));
+    Hy = (float*)malloc(size_Hy * sizeof(float));
+	cudaMallocPitch(&dev_Hy, &pitch_Hy, size_Hy_x * sizeof(float), size_Hy_y);
+	ele_Hy = pitch_Hy / sizeof(float);
 
     for (i = 0; i < size_Hy_y; ++i){
     	for (j = 0; j < size_Hy_x; j++){
-			Hy[i][j] = 0.f;
+			Hy[i*size_Hy_x + j] = 0.f;
 		} 
     }
 
@@ -63,29 +57,6 @@ void H::coe_H_set(src source)
 {
 	coe_H = source.dt / (mu * source.dz);
 }
-/*
-//forbid
-void H::Hx_transfer_host_device()
-{
-	cudaMemcpy(dev_Hx, Hx, size_Hx * sizeof(float), cudaMemcpyHostToDevice);
-}
-//forbid
-void H::Hx_transfer_device_host()
-{
-	cudaMemcpy(Hx, dev_Hx, size_Hx * sizeof(float), cudaMemcpyDeviceToHost);
-}
-//forbid
-void H::Hy_transfer_host_device()
-{
-	cudaMemcpy(dev_Hy, Hy, size_Hy * sizeof(float), cudaMemcpyHostToDevice);
-}
-//forbid
-void H::Hy_transfer_device_host()
-{
-	cudaMemcpy(dev_Hy, Hy, size_Hy * sizeof(float), cudaMemcpyDeviceToHost);
-}
-*/
-
 
 void H::Hx_checkout()
 {
@@ -93,7 +64,7 @@ void H::Hx_checkout()
 	cout << "Hx size: " << size_Hx << endl;
 	for (i = 0; i < size_Hx_y; i++){
 		for (j = 0; j < size_Hx_x; j++){
-			cout << Hx[i][j] << "\t";
+			cout << Hx[i*size_Hx_x + j] << "\t";
 		}
 	}
 	cout << endl;
@@ -106,7 +77,7 @@ void H::Hy_checkout()
 	for (i = 0; i < size_Hy_y; i++)
 	{
 		for (j = 0; j < size_Hy_x; j++){
-			cout << Hy[i][j] << "\t";
+			cout << Hy[i*size_Hy_x + j] << "\t";
 		}
 	}
 	cout << endl;
@@ -120,7 +91,7 @@ void H::Hx_save2file()
 
 	for ( i = 0; i < size_Hx_y; i++){
 		for ( j = 0; j < size_Hx_x; j++){
-			myfile << Hx[i][j] << "\t";
+			myfile << Hx[i*size_Hx_x + j] << "\t";
 		}
 		myfile << endl;
 	}
@@ -137,7 +108,7 @@ void H::Hy_save2file()
 
 	for (i = 0; i < size_Hy_y; i++){
 		for (j = 0; j < size_Hy_x; j++){
-			myfile << Hy[i][j] << "\t";
+			myfile << Hy[i*size_Hy_x + j] << "\t";
 		}
 		myfile << endl;
 	}

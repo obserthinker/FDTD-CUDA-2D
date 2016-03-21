@@ -17,7 +17,7 @@ import data
 dz = 0.015
 space = 30
 ez_space = space + 1
-time = 100
+time = 400
 data = np.loadtxt('Ez.txt')
 groups = np.ndarray(shape=(time, ez_space, ez_space))
 for i in range(0, time):

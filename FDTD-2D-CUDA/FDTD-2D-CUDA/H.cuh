@@ -15,10 +15,12 @@ class src;
 class H
 {
 public:
-	float **Hx, **Hy, coe_H;
+	float *Hx, *Hy, coe_H, *dev_Hx, *dev_Hy;
 	int size_Hx, size_Hy, size_Hx_x, size_Hx_y, size_Hy_x, size_Hy_y;
 	const float PI = 3.14159265939f;
 	const float mu = (4.0*PI)*1e-7f;
+	size_t pitch_Hx, pitch_Hy;
+	int ele_Hx, ele_Hy;
 
 public:
 	H(src source);
@@ -27,10 +29,6 @@ public:
 	void coe_H_set(src source);
 	void Hx_checkout();
 	void Hy_checkout();
-	void Hx_transfer_host_device();
-	void Hx_transfer_device_host();
-	void Hy_transfer_device_host();
-	void Hy_transfer_host_device();
 	void Hx_save2file();
 	void Hy_save2file();
 };

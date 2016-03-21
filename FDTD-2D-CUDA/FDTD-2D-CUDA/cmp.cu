@@ -97,3 +97,54 @@ __global__ void Ez_boundary_PEC(
 	}
 }
 
+__global__
+void Ez_MUR_u(
+float* Ez, float* E_bd_u, float* E_nbd_u, 
+int size_Ez_x, int size_Ez_y, float coe_MUR, int ele_ex
+)
+{
+	int i;
+	for ( i = 0; i < size_Ez_x; i++){
+		Ez[(size_Ez_y - 1) * ele_ex + i] = E_nbd_u[i]
+			+ coe_MUR * (Ez[(size_Ez_y - 2) * ele_ex + i]
+			- E_bd_u[i]);
+		E_nbd_u[i] = Ez[(size_Ez_y - 2) * ele_ex + i];
+		E_bd_u[i] = Ez[(size_Ez_y - 1) * ele_ex + i];
+	}
+}
+
+__global__
+void Ez_MUR_d(
+float* Ez, float* E_bd_d, float* E_nbd_d, 
+int size_Ez_x, int size_Ez_y, float coe_MUR, int ele_ex
+)
+{
+	int i;
+	for ( i = 0; i < size_Ez_x; i++){
+		Ez[i] = E_nbd_d[i] + coe_MUR * (Ez[1*ele_ex + i]
+			- E_bd_d[i]);
+		E_nbd_d[i] = Ez[1*ele_ex + i];
+		E_bd_d[i] = Ez[i];
+	}
+}
+
+__global__
+void Ez_MUR_lr(
+float* Ez, float* E_bd_l, float* E_nbd_l, 
+float* E_bd_r, float* E_nbd_r,
+int size_Ez_x, int size_Ez_y, float coe_MUR, int ele_ex
+)
+{
+	for (int i = 0; i < size_Ez_y; i++){
+		//left
+		Ez[i*ele_ex + 0] = E_nbd_l[i] + coe_MUR *
+			(Ez[i * ele_ex + 1] - E_bd_l[i]);
+		E_nbd_l[i] = Ez[i * ele_ex + 1];
+		E_bd_l[i] = Ez[i * ele_ex + 0];
+		//right
+		Ez[i* ele_ex + (size_Ez_x - 1)] = E_nbd_r[i] + coe_MUR *
+			(Ez[i * ele_ex + (size_Ez_x - 2)] - E_bd_r[i]);
+		E_nbd_r[i] = Ez[i * ele_ex + (size_Ez_x - 2)];
+		E_bd_r[i] = Ez[i* ele_ex + (size_Ez_x - 1)];
+	}
+}
